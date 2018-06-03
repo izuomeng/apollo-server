@@ -1,0 +1,103 @@
+# 数据资源服务
+enum FileType {
+  # 论文
+  PAPER
+  # 专利
+  PATENT
+  # 项目
+  PROJECT
+}
+
+enum Role {
+  NORMAL
+  EXPERT
+  ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+type User {
+  id: ID!
+  name: String!
+  role: Role!
+  email: String
+  phone: String
+  gender: Gender
+  # 身份证号
+  idcard: String
+  # 所属机构
+  institute: String
+  # 是否处于需要管理员认证的状态
+  pending: Int
+  # 已上传资源，如果角色是普通用户则为空
+  uploaded: [UserResource!]
+  # 已购买资源
+  purchased: [UserResource!]
+}
+
+input UserInput {
+  id: ID!
+  name: String!
+  email: String
+  phone: String
+  gender: Gender
+  idcard: String
+  institute: String
+}
+
+# 查询用户时用户资源列表，防止无限嵌套所以不用TechResouce
+type UserResource {
+  id: ID!
+  name: String!
+  url: String!
+  price: Float!
+  type: FileType
+}
+
+type TechResource {
+  id: ID!
+  # 文件名
+  name: String!
+  # 文件的下载路径
+  url: String!
+  price: Float!
+  # 文件类型
+  type: FileType
+  # 文件说明
+  description: String
+  # 文件所有者
+  owner: User!
+  # 允许下载的人
+  permitted: [User!]
+  # 评论
+  comment: [String!]
+  # 资源机构信息
+  institute: String
+}
+
+scalar Upload
+
+type Query {
+  # 获取资源，根据用户ID或者资源ID，都不指定则返回全部资源，不可同时指定
+  resources(userId: ID, resourceId: ID): [TechResource!]
+  # 获取用户，根据用户ID或者用户类型，都不指定则为全部用户，不可同时指定
+  users(id: ID, role: Role): [User!]
+}
+
+type Mutation {
+  # 专家上传文件
+  createResource(file: Upload!, id: ID!): TechResource
+  # 删除文件
+  removeResource(id: ID!): TechResource
+  # 更新user信息
+  updateUser(info: UserInput!): User
+  # 创建user
+  createUser(info: UserInput!): User
+  # 删除user
+  removeUser(id: ID!): User
+  # 某个用户购买了某个资源
+  purchase(userId: ID!, resourceId: ID!): Boolean
+}
