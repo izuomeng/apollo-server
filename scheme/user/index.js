@@ -44,7 +44,7 @@ const scheme = gql`
 `
 const rootQueries = gql`
   # 获取用户，根据用户ID或者用户类型，都不指定则为全部用户，不可同时指定
-  users(id: ID, role: Role): [User!]
+  users(id: String, role: Role): [User!]
 `
 const mutations = gql`
   # 更新user信息
@@ -52,9 +52,9 @@ const mutations = gql`
   # 创建user
   createUser(info: UserInput!): User
   # 删除user
-  removeUser(id: ID!): User
+  removeUser(id: String!): User
   # 某个用户购买了某个资源
-  purchase(userId: ID!, resourceId: ID!): Boolean
+  purchase(userId: String!, resourceId: String!): Boolean
 `
 module.exports = {
   queries: rootQueries,

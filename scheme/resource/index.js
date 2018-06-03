@@ -45,13 +45,13 @@ const scheme = gql`
 `
 const rootQueries = gql`
   # 获取资源，根据用户ID或者资源ID，都不指定则返回全部资源，不可同时指定
-  resources(userId: ID, resourceId: ID): [TechResource!]
+  resources(userId: String, resourceId: String): [TechResource!]
 `
 const mutations = gql`
   # 上传文件
-  createResource(file: Upload!, id: ID!): TechResource
+  createResource(file: Upload!, id: String!): TechResource
   # 删除文件
-  removeResource(id: ID!): TechResource
+  removeResource(id: String!): TechResource
 `
 module.exports = {
   queries: rootQueries,
