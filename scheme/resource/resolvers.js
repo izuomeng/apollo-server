@@ -4,11 +4,10 @@ module.exports = {
   TechResource: {
     owner(parent, args) {
       console.info('owner for resource id: ', parent.id, args)
-      // parent is TechResource object
       return Mock.mock({
         id: '@guid()',
         name: '@cname()',
-        role: /NORMAL|EXPERT/,
+        role: /EXPERT/,
         email: '@email()',
         phone: '@string(number, 11)',
         gender: /MALE|FEMALE/,
