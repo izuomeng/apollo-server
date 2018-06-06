@@ -1,5 +1,4 @@
 const Mock = require('mockjs')
-const { getResourceById, getOwnerResources, getAllResources } = require('../../data/resource/get')
 
 module.exports = {
   TechResource: {
@@ -34,7 +33,7 @@ module.exports = {
     }
   },
   Query: {
-    async resources(parent, args) {
+    resources(parent, args) {
       console.info('resouces: ', args)
       const data = Mock.mock({
         'list|5-20': [
@@ -52,13 +51,10 @@ module.exports = {
       })
       if (args.userId) {
         return data.list
-      } else if (args.ownerId) {
-        return getOwnerResources(args.ownerId)
       } else if (args.resourceId) {
-        const r = await getResourceById(args.resourceId)
-        return r || []
+        return data.list.slice(0, 1)
       }
-      return getAllResources()
+      return data.list
     }
   },
   Mutation: {

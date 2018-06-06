@@ -40,12 +40,13 @@ type User {
 
 input UserInput {
   id: ID!
-  name: String!
+  name: String
   email: String
   phone: String
   gender: Gender
   idcard: String
   institute: String
+  pending: Int
 }
 
 # 查询用户时用户资源列表，防止无限嵌套所以不用TechResouce
@@ -82,7 +83,8 @@ scalar Upload
 
 type Query {
   # 获取资源，根据用户ID或者资源ID，都不指定则返回全部资源，不可同时指定
-  resources(userId: ID, resourceId: ID): [TechResource!]
+  # userId是获取用户购买的资源，ownerId是获取用户拥有的资源，只有专家才需要这个参数
+  resources(userId: ID, resourceId: ID, ownerId: ID): [TechResource!]
   # 获取用户，根据用户ID或者用户类型，都不指定则为全部用户，不可同时指定
   users(id: ID, role: Role): [User!]
 }

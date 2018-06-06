@@ -45,7 +45,7 @@ const scheme = gql`
 `
 const rootQueries = gql`
   # 获取资源，根据用户ID或者资源ID，都不指定则返回全部资源，不可同时指定
-  resources(userId: String, resourceId: String): [TechResource!]
+  resources(userId: String, resourceId: String, ownerId: String): [TechResource!]
 `
 const mutations = gql`
   # 上传文件
